@@ -14,7 +14,6 @@ import ua.sustavov.gateway.gateway.util.MapperUtil;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@RequestMapping("/api")
 public class TransactionController {
 
     private Transformer transformer;
@@ -38,6 +37,7 @@ public class TransactionController {
 
     @PostMapping
     @ResponseStatus(OK)
+    @RequestMapping("/api")
     public @ResponseBody ResponseEntity<String> createTransaction(@RequestBody String json) {
 
         TransactionDto transactionDto = JsonMapper.MapToDto(json);
@@ -54,6 +54,14 @@ public class TransactionController {
         transactionService.saveEntity(transaction);
 
         return new ResponseEntity<>(json, OK);
+    }
+
+
+    @RequestMapping("/")
+    public String HelloController() {
+        return "Hi! Simple gateway payment" + "<br>" +
+                "Path for request: https://host/api" + "<br>" +
+                "Good luck!";
     }
 
 }

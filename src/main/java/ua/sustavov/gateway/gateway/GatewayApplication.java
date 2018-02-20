@@ -26,12 +26,4 @@ public class GatewayApplication extends SpringBootServletInitializer {
 		return builder.sources(applicationClass);
 	}
 
-	@RestController
-	class HelloController {
-
-		@RequestMapping("/")
-		String hello(@PathVariable String name) {
-			return "Hi!";
-		}
-	}
 }
