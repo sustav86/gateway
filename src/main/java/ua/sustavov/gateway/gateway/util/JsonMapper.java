@@ -7,10 +7,7 @@ import ua.sustavov.gateway.gateway.dto.AuthTransactionDto;
 import ua.sustavov.gateway.gateway.dto.TransactionDto;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class JsonMapper {
 
@@ -108,9 +105,9 @@ public class JsonMapper {
         json = json.replace("\uFEFF", "");
         Map<String, String> map = mapper.convertValue(authTransactionDto, Map.class);
         Map<String, String> bufferMap = new HashMap<>();
+        List<Map<String, String>> bufferList = new ArrayList<>();
         TypeReference<Map<String, Object>> typeReference = new TypeReference<Map<String, Object>>() {};
-//        TypeReference<List<Map<String, Object>>> typeReferenceList = new TypeReference<List<Map<String, Object>>>() {};
-        TypeReference<List<String>> typeReferenceList = new TypeReference<List<String>>() {};
+        TypeReference<List<Map<String, String>>> typeReferenceList = new TypeReference<List<Map<String, String>>>() {};
         JsonNode currentNode;
         AuthTransactionDto responseAuthTrans = null;
 
@@ -119,14 +116,17 @@ public class JsonMapper {
             bufferMap = mapper.readValue(currentNode, typeReference);
             map.putAll(bufferMap);
 
-            //TODO
-//            currentNode = mapper.readTree(json).path(TRANSACTION_RESPONSE).path(MESSAGES);
-//            bufferMap = mapper.readValue(currentNode, typeReferenceList);
-//            map.putAll(bufferMap);
-//
-//            currentNode = mapper.readTree(json).path(MESSAGES).path(MESSAGE);
-//            bufferMap = mapper.readValue(currentNode, typeReferenceList);
-//            map.putAll(bufferMap);
+            currentNode = mapper.readTree(json).path(TRANSACTION_RESPONSE).path(MESSAGES);
+            bufferList = mapper.readValue(currentNode, typeReferenceList);
+            for (Map<String, String> entry : bufferList) {
+                map.putAll(entry);
+            }
+
+            currentNode = mapper.readTree(json).path(MESSAGES).path(MESSAGE);
+            bufferList = mapper.readValue(currentNode, typeReferenceList);
+            for (Map<String, String> entry : bufferList) {
+                map.putAll(entry);
+            }
 
             responseAuthTrans = mapper.convertValue(map, AuthTransactionDto.class);
 

@@ -11,12 +11,13 @@ import ua.sustavov.gateway.gateway.service.*;
 import ua.sustavov.gateway.gateway.util.JsonMapper;
 import ua.sustavov.gateway.gateway.util.MapperUtil;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 public class TransactionController {
 
-    private Transformer transformer;
+    private final Transformer transformer;
     private final Generator generator;
     private final Connector connector;
     private final BackTransformer backTransformer;
@@ -38,7 +39,7 @@ public class TransactionController {
     @PostMapping
     @ResponseStatus(OK)
     @RequestMapping("/api")
-    public @ResponseBody ResponseEntity<String> createTransaction(@RequestBody String json) {
+    public ResponseEntity<?> createTransaction(@RequestBody String json) {
 
         TransactionDto transactionDto = JsonMapper.MapToDto(json);
         Transaction transaction = MapperUtil.toEntity(transactionDto);
@@ -51,9 +52,12 @@ public class TransactionController {
         authTransaction = transformer.transform(responseAuthTransactionDto);
         backTransformer.transform(transaction, authTransaction);
 
-        transactionService.saveEntity(transaction);
+        Transaction saveTransaction = transactionService.saveEntity(transaction);
+        if (saveTransaction == null) {
+            return new ResponseEntity<>("Failed to create new Transaction", BAD_REQUEST);
+        }
 
-        return new ResponseEntity<>(json, OK);
+        return new ResponseEntity<>(saveTransaction, OK);
     }
 
 
