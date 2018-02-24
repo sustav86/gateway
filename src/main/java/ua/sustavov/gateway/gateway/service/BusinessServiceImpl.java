@@ -54,8 +54,10 @@ public class BusinessServiceImpl implements BusinessService {
         backTransformer.transform(transaction, authTransaction);
 
         transactionDto = transactionMapper.toDto(transactionService.saveEntity(transaction));
-        authTransaction.setTransaction(transaction);
-        authTransactionService.saveEntity(authTransaction);
+        if (transactionDto != null) {
+            authTransaction.setTransaction(transaction);
+            authTransactionService.saveEntity(authTransaction);
+        }
 
         return transactionDto;
     }
