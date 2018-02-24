@@ -1,10 +1,12 @@
 package ua.sustavov.gateway.gateway.dto;
 
-import org.codehaus.jackson.annotate.*;
+import com.fasterxml.jackson.annotation.*;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import java.io.Serializable;

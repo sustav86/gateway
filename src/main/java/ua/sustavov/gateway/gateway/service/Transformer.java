@@ -1,10 +1,10 @@
 package ua.sustavov.gateway.gateway.service;
 
-import ua.sustavov.gateway.gateway.dto.AuthTransactionDto;
 import ua.sustavov.gateway.gateway.entity.AuthTransaction;
+import ua.sustavov.gateway.gateway.entity.Transaction;
 
 public interface Transformer {
 
-    AuthTransaction transform(AuthTransactionDto authTransactionDto);
+    AuthTransaction transform(Transaction transaction);
 
 }

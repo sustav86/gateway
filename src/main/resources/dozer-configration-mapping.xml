@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+      http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+    <mapping>
+        <class-a>ua.sustavov.gateway.gateway.entity.AuthTransaction</class-a>
+        <class-b>ua.sustavov.gateway.gateway.entity.Transaction</class-b>
+        <field>
+            <a>responseCode</a>
+            <b>responseCode</b>
+        </field>
+        <field>
+            <a>authCode</a>
+            <b>authCode</b>
+        </field>
+        <field>
+            <a>messageText</a>
+            <b>responseMessage</b>
+        </field>
+        <field>
+            <a>avsResultCode</a>
+            <b>avsResultCode</b>
+        </field>
+        <field>
+            <a>cvvResultCode</a>
+            <b>cvvResultCode</b>
+        </field>
+    </mapping>
+
+</mappings>

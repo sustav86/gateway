@@ -1,9 +1,10 @@
 package ua.sustavov.gateway.gateway.entity;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.*;
+import ua.sustavov.gateway.gateway.serialization.AuthTransactionDeserializer;
+import ua.sustavov.gateway.gateway.serialization.AuthTransactionSerializer;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,8 +12,11 @@ import java.io.Serializable;
 @Entity
 @Data
 @NoArgsConstructor
+@ToString
 @Getter
 @Setter
+@JsonSerialize(using = AuthTransactionSerializer.class)
+@JsonDeserialize(using = AuthTransactionDeserializer.class)
 public class AuthTransaction implements Serializable {
 
     @Id
@@ -29,18 +33,19 @@ public class AuthTransaction implements Serializable {
     private String billToState;
     private String billToZip;
     private String billToPhoneNumber;
-    private String description;
-    private String resultCode;
-    private String messageCode;
-    private String messageText;
-    private String responseCode;
-    private String authCode;
-    private String avsResultCode;
-    private String cvvResultCode;
-    private String transId;
+    private String description;//
+    private String resultCode; //
+    private String messageCode;//
+    private String messageText;//
+    private String responseCode;//
+    private String authCode;//
+    private String avsResultCode;//
+    private String cvvResultCode;//
+    private String transId;//
     private String approvedAmount;
     @OneToOne
     @JoinColumn(name = "transaction_id")
     private Transaction transaction;
+
 
 }

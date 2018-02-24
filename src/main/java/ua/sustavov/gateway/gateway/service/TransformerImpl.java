@@ -1,20 +1,23 @@
 package ua.sustavov.gateway.gateway.service;
 
-import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.sustavov.gateway.gateway.dto.AuthTransactionDto;
 import ua.sustavov.gateway.gateway.entity.AuthTransaction;
+import ua.sustavov.gateway.gateway.entity.Transaction;
+import ua.sustavov.gateway.gateway.mapper.AuthTransToTransMapper;
 
 @Service
 public class TransformerImpl implements Transformer {
 
-    @Override
-    public AuthTransaction transform(AuthTransactionDto authTransactionDto) {
+    private final AuthTransToTransMapper authTransToTransMapper;
 
-        AuthTransaction authTransaction = new AuthTransaction();
-        BeanUtils.copyProperties(authTransactionDto, authTransaction);
-
-        return authTransaction;
+    @Autowired
+    public TransformerImpl(AuthTransToTransMapper authTransToTransMapper) {
+        this.authTransToTransMapper = authTransToTransMapper;
     }
 
+    @Override
+    public AuthTransaction transform(Transaction transaction) {
+        return authTransToTransMapper.transToAuthTrans(transaction);
+    }
 }
