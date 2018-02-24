@@ -16,6 +16,8 @@ public class BusinessServiceImpl implements BusinessService {
     private final Connector connector;
     private final Parser parser;
     private final BackTransformer backTransformer;
+    private final TransactionService transactionService;
+    private final AuthTransactionService authTransactionService;
 
     @Autowired
     public BusinessServiceImpl(TransactionMapper transactionMapper,
@@ -23,43 +25,38 @@ public class BusinessServiceImpl implements BusinessService {
                                Generator generator,
                                Connector connector,
                                Parser parser,
-                               BackTransformer backTransformer) {
+                               BackTransformer backTransformer,
+                               TransactionService transactionService,
+                               AuthTransactionService authTransactionService) {
         this.transactionMapper = transactionMapper;
         this.transformer = transformer;
         this.generator = generator;
         this.connector = connector;
         this.parser = parser;
         this.backTransformer = backTransformer;
+        this.transactionService = transactionService;
+        this.authTransactionService = authTransactionService;
     }
 
     @Override
     public TransactionDto performTransaction(TransactionDto transactionDto) {
 
         Transaction transaction = transactionMapper.toEntity(transactionDto);
-
-        System.out.println(transaction);
-
 //        Transformer
         AuthTransaction authTransaction = transformer.transform(transaction);
-
-        System.out.println(authTransaction);
-
 //        Generator
         String request = generator.generate(authTransaction);
-
-        System.out.println(request);
-
 //        Connector
         String response = connector.sendData(request);
-
-        System.out.println(response);
-
 //        Parser
         parser.parse(authTransaction, response);
-
 //        BackTransformer
         backTransformer.transform(transaction, authTransaction);
 
-        return null;
+        transactionDto = transactionMapper.toDto(transactionService.saveEntity(transaction));
+        authTransaction.setTransaction(transaction);
+        authTransactionService.saveEntity(authTransaction);
+
+        return transactionDto;
     }
 }

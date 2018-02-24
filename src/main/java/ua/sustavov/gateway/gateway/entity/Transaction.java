@@ -1,9 +1,6 @@
 package ua.sustavov.gateway.gateway.entity;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +12,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Data
+@NoArgsConstructor
 public class Transaction implements Serializable {
 
     @Id

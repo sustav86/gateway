@@ -30,8 +30,10 @@ public class TransactionController {
     @RequestMapping(value = "/api", consumes = "application/json", method = {RequestMethod.POST})
     public ResponseEntity<?> createTransaction(@RequestBody TransactionDto transactionDto) {
 
-        TransactionDto transaction = businessService.performTransaction(transactionDto);
-
+        transactionDto = businessService.performTransaction(transactionDto);
+        if (transactionDto == null) {
+            return new ResponseEntity<>("Failed to create new Transaction using given data.", BAD_REQUEST);
+        }
         return new ResponseEntity<>(transactionDto, OK);
 
     }

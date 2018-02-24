@@ -3,10 +3,7 @@ package ua.sustavov.gateway.gateway.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.Size;
 
@@ -14,6 +11,7 @@ import javax.validation.constraints.Size;
 @Setter
 @ToString
 @NoArgsConstructor
+@EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AuthTransactionDto {
     @JsonIgnore
@@ -72,5 +70,6 @@ public class AuthTransactionDto {
     private String transId;
     @Size(max = 15)
     private String approvedAmount;
+    private long transactionId;
 
 }

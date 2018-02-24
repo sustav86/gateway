@@ -2,10 +2,7 @@ package ua.sustavov.gateway.gateway.dto;
 
 import com.fasterxml.jackson.annotation.*;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
@@ -15,6 +12,7 @@ import java.io.Serializable;
 @Setter
 @ToString
 @NoArgsConstructor
+@EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TransactionDto implements Serializable {
     @JsonIgnore
