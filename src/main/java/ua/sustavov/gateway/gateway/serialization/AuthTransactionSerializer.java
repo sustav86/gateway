@@ -4,10 +4,9 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import ua.sustavov.gateway.gateway.entity.AuthTransaction;
+import ua.sustavov.gateway.gateway.util.CurrentDate;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class AuthTransactionSerializer extends StdSerializer<AuthTransaction> {
 
@@ -52,7 +51,7 @@ public class AuthTransactionSerializer extends StdSerializer<AuthTransaction> {
         jsonGenerator.writeObjectFieldStart(PAYMENT);
         jsonGenerator.writeObjectFieldStart(CREDIT_CARD);
         jsonGenerator.writeStringField("cardNumber", "5424000000000015");
-        jsonGenerator.writeStringField("expirationDate", getCurrentDate());
+        jsonGenerator.writeStringField("expirationDate", CurrentDate.getCurrentDate());
         jsonGenerator.writeStringField("cardCode", "999");
 //        end_CREDIT_CARD
         jsonGenerator.writeEndObject();
@@ -86,11 +85,4 @@ public class AuthTransactionSerializer extends StdSerializer<AuthTransaction> {
 
     }
 
-    private String getCurrentDate() {
-        LocalDate now = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
-
-        return now.format(formatter);
-
-    }
 }
