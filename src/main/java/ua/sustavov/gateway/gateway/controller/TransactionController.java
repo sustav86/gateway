@@ -1,14 +1,16 @@
 package ua.sustavov.gateway.gateway.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.sustavov.gateway.gateway.dto.TransactionDto;
-import ua.sustavov.gateway.gateway.mapper.QueryStringMapper;
+import ua.sustavov.gateway.gateway.entity.Transaction;
 import ua.sustavov.gateway.gateway.service.*;
 
-import javax.ws.rs.BeanParam;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.OK;
@@ -18,37 +20,53 @@ public class TransactionController {
 
     private final BusinessService businessService;
     private final ObjectMapper objectMapper;
+    private final DozerBeanMapper dozerBeanMapper;
 
     @Autowired
     public TransactionController(BusinessService businessService,
-                                 ObjectMapper objectMapper) {
+                                 ObjectMapper objectMapper,
+                                 DozerBeanMapper dozerBeanMapper) {
         this.businessService = businessService;
         this.objectMapper = objectMapper;
+        this.dozerBeanMapper = dozerBeanMapper;
     }
 
     @ResponseStatus(OK)
     @RequestMapping(value = "/api", method = {RequestMethod.GET})
-    public ResponseEntity<?> createTransactionString(@BeanParam QueryStringMapper queryStringMapper) {
+    public ResponseEntity<?> createTransactionString(@RequestParam Map<String, String> queryMap) {
 
-        TransactionDto transactionDto = objectMapper.convertValue(queryStringMapper, TransactionDto.class);
+        Transaction transaction = dozerBeanMapper.map(queryMap, Transaction.class);
 
-        transactionDto = businessService.performTransaction(transactionDto);
-        if (transactionDto == null) {
+        transaction = businessService.performTransaction(transaction);
+
+        if (transaction == null) {
             return new ResponseEntity<>("Failed to create new Transaction using given data.", BAD_REQUEST);
         }
-        return new ResponseEntity<>(transactionDto, OK);
+
+        return new ResponseEntity<>(transaction, OK);
 
     }
 
     @ResponseStatus(OK)
     @RequestMapping(value = "/api", consumes = "application/json", method = {RequestMethod.POST})
-    public ResponseEntity<?> createTransaction(@RequestBody TransactionDto transactionDto) {
+    public ResponseEntity<?> createTransaction(@RequestBody String json) {
 
-        transactionDto = businessService.performTransaction(transactionDto);
-        if (transactionDto == null) {
+        Map<String, Object> jsonMap = new HashMap<>();
+        try {
+            jsonMap = objectMapper.readValue(json, Map.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Transaction transaction = dozerBeanMapper.map(jsonMap, Transaction.class);
+
+        transaction = businessService.performTransaction(transaction);
+
+        if (transaction == null) {
             return new ResponseEntity<>("Failed to create new Transaction using given data.", BAD_REQUEST);
         }
-        return new ResponseEntity<>(transactionDto, OK);
+
+        return new ResponseEntity<>(transaction, OK);
 
     }
 

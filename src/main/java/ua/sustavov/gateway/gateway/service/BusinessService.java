@@ -1,8 +1,8 @@
 package ua.sustavov.gateway.gateway.service;
 
-import ua.sustavov.gateway.gateway.dto.TransactionDto;
+import ua.sustavov.gateway.gateway.entity.Transaction;
 
 public interface BusinessService {
 
-    TransactionDto performTransaction(TransactionDto transactionDto);
+    Transaction performTransaction(Transaction transaction);
 }

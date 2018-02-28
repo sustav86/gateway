@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.io.Serializable;
 
 @Entity
@@ -23,6 +24,7 @@ public class Transaction implements Serializable {
     private int amount;
     private String accountNumber;
     private String expirationDate;
+    @Transient
     private String cscCode;
     private String customerAccountCode;
     private String firstName;

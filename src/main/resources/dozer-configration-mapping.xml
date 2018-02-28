@@ -5,27 +5,92 @@
       http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
     <mapping>
-        <class-a>ua.sustavov.gateway.gateway.entity.AuthTransaction</class-a>
+        <class-a>ua.sustavov.gateway.gateway.entity.Transaction</class-a>
+        <class-b>ua.sustavov.gateway.gateway.entity.AuthTransaction</class-b>
+        <field>
+            <a>customerAccountCode</a>
+            <b>customerId</b>
+        </field>
+        <field>
+            <a>accountNumber</a>
+            <b>cardNumber</b>
+        </field>
+        <field>
+            <a>cscCode</a>
+            <b>cardCode</b>
+        </field>
+        <field>
+            <a>firstName</a>
+            <b>billToFirstName</b>
+        </field>
+        <field>
+            <a>lastName</a>
+            <b>billToLastName</b>
+        </field>
+        <field>
+            <a>street</a>
+            <b>billToAddress</b>
+        </field>
+        <field>
+            <a>city</a>
+            <b>billToCity</b>
+        </field>
+        <field>
+            <a>state</a>
+            <b>billToState</b>
+        </field>
+        <field>
+            <a>zipCode</a>
+            <b>billToZip</b>
+        </field>
+        <field>
+            <a>responseMessage</a>
+            <b>messageText</b>
+        </field>
+        <field>
+            <a>phoneNumber</a>
+            <b>billToPhoneNumber</b>
+        </field>
+    </mapping>
+
+    <mapping>
+        <class-a>java.util.Map</class-a>
         <class-b>ua.sustavov.gateway.gateway.entity.Transaction</class-b>
+        <field-exclude type="one-way">
+            <a key="id">this</a>
+            <b>id</b>
+        </field-exclude>
         <field>
-            <a>responseCode</a>
-            <b>responseCode</b>
+            <a key="name">this</a>
+            <b>userName</b>
         </field>
         <field>
-            <a>authCode</a>
-            <b>authCode</b>
+            <a key="transactionKey">this</a>
+            <b>apiKey</b>
         </field>
         <field>
-            <a>messageText</a>
-            <b>responseMessage</b>
+            <a key="cardNumber">this</a>
+            <b>accountNumber</b>
         </field>
         <field>
-            <a>avsResultCode</a>
-            <b>avsResultCode</b>
+            <a key="cardCode">this</a>
+            <b>cscCode</b>
         </field>
         <field>
-            <a>cvvResultCode</a>
-            <b>cvvResultCode</b>
+            <a key="id">this</a>
+            <b>customerAccountCode</b>
+        </field>
+        <field>
+            <a key="address">this</a>
+            <b>street</b>
+        </field>
+        <field>
+            <a key="zip">this</a>
+            <b>zipCode</b>
+        </field>
+        <field>
+            <a key="poNumber">this</a>
+            <b>phoneNumber</b>
         </field>
     </mapping>
 
