@@ -49,13 +49,14 @@ public class TransactionController {
 
     @ResponseStatus(OK)
     @RequestMapping(value = "/api", consumes = "application/json", method = {RequestMethod.POST})
-    public ResponseEntity<?> createTransaction(@RequestBody String json) {
+    public ResponseEntity<?> createTransaction(@RequestBody String json) throws IOException {
 
         Map<String, Object> jsonMap = new HashMap<>();
+        json = null;
         try {
             jsonMap = objectMapper.readValue(json, Map.class);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IOException("Bad request");
         }
 
         Transaction transaction = dozerBeanMapper.map(jsonMap, Transaction.class);
