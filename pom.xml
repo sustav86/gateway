@@ -19,6 +19,7 @@
     </parent>
 
     <properties>
+        <start-class>ua.sustavov.gateway.gateway.GatewayApplication</start-class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven-compile-plugin.version>3.7.0</maven-compile-plugin.version>
