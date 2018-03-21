@@ -9,8 +9,13 @@ import ua.sustavov.gateway.gateway.entity.Transaction;
 import ua.sustavov.gateway.gateway.service.*;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.OK;
@@ -74,7 +79,9 @@ public class TransactionController {
     public String HelloController() {
         return "Hi! Simple gateway payment" + "<br>" +
                 "Path for request: https://host/api" + "<br>" +
-                "Good luck!";
+                "Good luck!" + "<br>" +
+                "Test query:" + "<br>" +
+                "resources/TestQueryExample";
     }
 
 }
